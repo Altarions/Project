@@ -26,27 +26,7 @@ public class BigRegion {
         }
 
     }
-
-    public Integer getCaseSmallRegion(Integer i, Integer j) {
-        if(this.isEmpty){
-
-            if(i<=centerI) {
-                if(j<=centerJ) {
-                    return this.NO.getCaseSmallRegion(i, j);
-                }else {
-                    return this.NE.getCaseSmallRegion(i, j);
-
-                }
-            }else {
-                if(j<=centerJ) {
-                    return this.SO.getCaseSmallRegion(i, j);
-                }else {
-                    return this.SE.getCaseSmallRegion(i, j);
-                }
-            }
-        }
-        return this.smallRegion.getColorTemporaire(i,j);
-    }
+    
 
     public boolean isGridIsFull(){
         Color white = new Color(255, 255, 255);
