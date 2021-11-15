@@ -60,7 +60,7 @@ public class SmallRegion {
        return 0;
     }
 
-    private void isAquise(){
+    public void isAquise(){
         Color firstElm = colorList.get(0);
         if(!firstElm.equals(new Color(255,255,255))) {
             for (int i = 1; i < colorList.size(); i++) {

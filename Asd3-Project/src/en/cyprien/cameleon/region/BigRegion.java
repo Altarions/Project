@@ -27,27 +27,6 @@ public class BigRegion {
 
     }
 
-    public void setCase(Integer i, Integer j, Color color){
-        if(isEmpty){
-            if(i<=centerI) {
-                if(j<=centerJ) {
-                    this.NO.setCase(i, j, color);
-                }else {
-                    this.NE.setCase(i, j, color);
-
-                }
-            }else {
-                if(j<=centerJ) {
-                    this.SO.setCase(i, j, color);
-                }else {
-                    this.SE.setCase(i, j, color);
-                }
-            }
-        }else{
-            this.smallRegion.setCase(i,j, color);
-        }
-    }
-
     public Integer getCaseSmallRegion(Integer i, Integer j) {
         if(this.isEmpty){
 
@@ -83,88 +62,24 @@ public class BigRegion {
         return result;
     }
 
-    public Color getCase(Integer i, Integer j){
-        if(this.isEmpty){
-            if(i<=centerI) {
-                if(j<=centerJ) {
-                    return this.NO.getCase(i, j);
-                }else {
-                    return this.NE.getCase(i, j);
-
-                }
-            }else {
-                if(j<=centerJ) {
-                    return this.SO.getCase(i, j);
-                }else {
-                    return this.SE.getCase(i, j);
-                }
-            }
-        }
-
-        return this.smallRegion.getCase(i,j);
-
-    }
-
-    public Boolean smallRegionIsAquise(Integer i, Integer j){
-        if(this.isEmpty){
-            if(i<=centerI) {
-                if(j<=centerJ) {
-                    return this.NO.smallRegionIsAquise(i, j);
-                }else {
-                    return this.NE.smallRegionIsAquise(i, j);
-
-                }
-            }else {
-                if(j<=centerJ) {
-                    return this.SO.smallRegionIsAquise(i, j);
-                }else {
-                    return this.SE.smallRegionIsAquise(i, j);
-                }
-            }
-        }
-
-        return this.smallRegion.getAquise();
-    }
-
-    public Boolean smallRegionIsFull(Integer i, Integer j){
-        if(this.isEmpty){
-            if(i<=centerI) {
-                if(j<=centerJ) {
-                    return this.NO.smallRegionIsFull(i, j);
-                }else {
-                    return this.NE.smallRegionIsFull(i, j);
-
-                }
-            }else {
-                if(j<=centerJ) {
-                    return this.SO.smallRegionIsFull(i, j);
-                }else {
-                    return this.SE.smallRegionIsFull(i, j);
-                }
-            }
-        }
-
-        return this.smallRegion.isFull();
-    }
-
-    public void setColorList(Integer i, Integer j, Color color){
+    public SmallRegion getSmallRegion(Integer i, Integer j){
         if(isEmpty){
             if(i<=centerI) {
                 if(j<=centerJ) {
-                    this.NO.setColorList(i, j, color);
+                    return this.NO.getSmallRegion(i, j);
                 }else {
-                    this.NE.setColorList(i, j, color);
+                    return this.NE.getSmallRegion(i, j);
 
                 }
             }else {
                 if(j<=centerJ) {
-                    this.SO.setColorList(i, j, color);
+                    return this.SO.getSmallRegion(i, j);
                 }else {
-                    this.SE.setColorList(i, j, color);
+                    return this.SE.getSmallRegion(i, j);
                 }
             }
         }else{
-            this.smallRegion.setColorList(color);
+            return this.smallRegion;
         }
     }
     

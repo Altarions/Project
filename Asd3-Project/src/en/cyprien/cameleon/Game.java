@@ -90,7 +90,7 @@ public class Game {
                     i>0 &&
                     j<=width &&
                     j>0 &&
-                    grid.getCase(i,j).equals(new Color(255,255,255))){
+                    grid.getSmallRegion(i,j).getCase(i,j).equals(new Color(255,255,255))){
                 posValid = true;
             }else{
                 System.out.println("Vous avez rentré une mauvaise position");
@@ -104,7 +104,7 @@ public class Game {
 
         for(int i=1; i<=width; i++){
             for(int j=1; j<=width; j++){
-                System.out.print(grid.getCaseSmallRegion(i,j));
+                System.out.print(grid.getSmallRegion(i,j).getColorTemporaire(i,j));
             }
             System.out.println();
         }
@@ -123,7 +123,7 @@ public class Game {
         Integer result = 0;
         for(int i=1; i<=width; i++){
             for(int j=1; j<=width; j++){
-                if(grid.getCase(i,j).equals(color)) result++;
+                if(grid.getSmallRegion(i,j).getCase(i,j).equals(color)) result++;
             }
         }
         return result;
@@ -134,7 +134,7 @@ public class Game {
 
         for(int i=1; i<=width; i++){
             for(int j=1; j<=width; j++){
-                if(grid.getCase(i,j).equals(color)) listPoint.add(new Point(i,j));
+                if(grid.getSmallRegion(i,j).getCase(i,j).equals(color)) listPoint.add(new Point(i,j));
             }
         }
         return listPoint;
@@ -145,7 +145,7 @@ public class Game {
 
         for(int i=1; i<=width; i++){
             for(int j=1; j<=width; j++){
-                listColor.add(this.grid.getCase(i,j));
+                listColor.add(grid.getSmallRegion(i,j).getCase(i,j));
             }
         }
         return listColor;
@@ -154,7 +154,7 @@ public class Game {
     public void playList(ArrayList<Color> liste){
         for(int i=1; i<=width; i++){
             for(int j=1; j<=width; j++){
-                this.grid.setCase(i,j, liste.get((i-1)*width+(j-1)));
+                grid.getSmallRegion(i,j).setCase(i,j, liste.get((i-1)*width+(j-1)));
             }
         }
     }
@@ -171,14 +171,14 @@ public class Game {
     private void braveRule(Integer i, Integer j, Color color){
         Color white = new Color(255, 255, 255);
         //rule 1
-        grid.setCase(i, j, color);
+        grid.getSmallRegion(i,j).setCase(i, j, color);
         //rule 2
         for(int x=-1; x<=1; x++){
             for(int y=-1; y<=1; y++){
                 if(i+x>0 && j+y>0 && i+x<=width && j+y<=width) {
-                    Color getColor = grid.getCase(i + x, j + y);
+                    Color getColor = grid.getSmallRegion(i+x,j+y).getCase(i + x, j + y);
                     if (!color.equals(getColor) && !getColor.equals(white)) {
-                        grid.setCase(i + x, j + y, color);
+                        grid.getSmallRegion(i+x,j+y).setCase(i + x, j + y, color);
                     }
                 }
             }
@@ -188,21 +188,21 @@ public class Game {
     private void temeraireRule(Integer i, Integer j, Color color) {
         Color white = new Color(255, 255, 255);
         //rule 1
-        grid.setCase(i, j, color);
+        grid.getSmallRegion(i,j).setCase(i, j, color);
         //rule 2
         for(int x=-1; x<=1; x++){
             for(int y=-1; y<=1; y++){
                 if(i+x>0 && j+y>0 && i+x<=width && j+y<=width) {
-                    Color getColor = grid.getCase(i + x, j + y);
+                    Color getColor = grid.getSmallRegion(i+x,j+y).getCase(i + x, j + y);
 
-                    if (!color.equals(getColor) && !getColor.equals(white) && !grid.smallRegionIsAquise(i+x,j+y)) {
-                        grid.setCase(i + x, j + y, color);
+                    if (!color.equals(getColor) && !getColor.equals(white) && !grid.getSmallRegion(i+x,j+y).getAquise()) {
+                        grid.getSmallRegion(i+x,j+y).setCase(i + x, j + y, color);
                     }
                 }
             }
         }
         //rule 3
-        if(grid.smallRegionIsFull(i,j))grid.setColorList(i,j,color);
+        if(grid.getSmallRegion(i,j).isFull())grid.getSmallRegion(i,j).setColorList(color);
         //rule 4
     }
 
