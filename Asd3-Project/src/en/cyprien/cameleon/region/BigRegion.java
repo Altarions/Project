@@ -7,10 +7,10 @@ public class BigRegion {
     private Boolean isEmpty;
     private SmallRegion smallRegion;
     private Integer centerI,centerJ;//i = lign, j = colone
-    private Boolean aquise;
+    private Boolean aquire;
 
     public BigRegion(Integer lenght, Integer centerI, Integer centerJ){
-        this.aquise = false;
+        this.aquire = false;
         this.centerI = centerI;
         this.centerJ = centerJ;
         if(lenght>=1){

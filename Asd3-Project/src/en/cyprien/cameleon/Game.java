@@ -26,7 +26,7 @@ public class Game {
 
             posPlayer = posPlayer();
             rule((int)posPlayer.getX(), (int)posPlayer.getY(), player.color);
-            System.out.println("Joueur");
+            System.out.println("Player");
             affichageTemporaire();
             gridIsFull = grid.isGridIsFull();
 
@@ -164,7 +164,7 @@ public class Game {
         if(this.braveRule) {
             braveRule(i,j,color);
         }else{
-            temeraireRule(i,j,color);
+            temerityRule(i,j,color);
         }
     }
 
@@ -185,7 +185,7 @@ public class Game {
         }
     }
 
-    private void temeraireRule(Integer i, Integer j, Color color) {
+    private void temerityRule(Integer i, Integer j, Color color) {
         Color white = new Color(255, 255, 255);
         //rule 1
         grid.getSmallRegion(i,j).setCase(i, j, color);
@@ -195,7 +195,7 @@ public class Game {
                 if(i+x>0 && j+y>0 && i+x<=width && j+y<=width) {
                     Color getColor = grid.getSmallRegion(i+x,j+y).getCase(i + x, j + y);
 
-                    if (!color.equals(getColor) && !getColor.equals(white) && !grid.getSmallRegion(i+x,j+y).getAquise()) {
+                    if (!color.equals(getColor) && !getColor.equals(white) && !grid.getSmallRegion(i+x,j+y).getAquire()) {
                         grid.getSmallRegion(i+x,j+y).setCase(i + x, j + y, color);
                     }
                 }

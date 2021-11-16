@@ -5,11 +5,11 @@ import java.util.ArrayList;
 
 public class SmallRegion {
    private ArrayList<Color> colorList;
-   private Boolean aquise;
+   private Boolean aquire;
 
    SmallRegion(){
        this.colorList = new ArrayList<Color>(9);
-       this.aquise = false;
+       this.aquire = false;
        initWhite();
    }
 
@@ -65,14 +65,14 @@ public class SmallRegion {
         if(!firstElm.equals(new Color(255,255,255))) {
             for (int i = 1; i < colorList.size(); i++) {
                 if (firstElm.equals(colorList.get(i))) {
-                    this.aquise = true;
+                    this.aquire = true;
                 } else {
-                    this.aquise = false;
+                    this.aquire = false;
                     return;
                 }
             }
         }else{
-            this.aquise = false;
+            this.aquire = false;
         }
     }
 
@@ -84,10 +84,10 @@ public class SmallRegion {
        for(int i=0; i<9; i++){
            colorList.set(i, color);
        }
-       this.aquise = true;
+       this.aquire = true;
     }
 
-    public Boolean getAquise() {
-        return aquise;
+    public Boolean getAquire() {
+        return aquire;
     }
 }
