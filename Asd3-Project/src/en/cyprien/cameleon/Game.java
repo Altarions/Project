@@ -26,14 +26,14 @@ public class Game {
 
             posPlayer = posPlayer();
             rule((int)posPlayer.getX(), (int)posPlayer.getY(), player.color);
-            System.out.println("Joueur");
+            System.out.println("JOUEUR "+scoreCalculation(player.color)+" VS IA "+ scoreCalculation(robot.color));
             affichageTemporaire();
             gridIsFull = grid.isGridIsFull();
 
             if(!gridIsFull) {
                 posRobot = robot.play();
                 rule((int) posRobot.getX(), (int) posRobot.getY(), robot.color);
-                System.out.println("IA");
+                System.out.println("IA "+scoreCalculation(robot.color)+" VS PLAYER "+ scoreCalculation(player.color));
                 affichageTemporaire();
                 gridIsFull = grid.isGridIsFull();
             }
@@ -189,14 +189,16 @@ public class Game {
         Color white = new Color(255, 255, 255);
         //rule 1
         grid.getSmallRegion(i,j).setCase(i, j, color);
+        grid.getBigRegion(i,j).isAquire();
         //rule 2
         for(int x=-1; x<=1; x++){
             for(int y=-1; y<=1; y++){
                 if(i+x>0 && j+y>0 && i+x<=width && j+y<=width) {
                     Color getColor = grid.getSmallRegion(i+x,j+y).getCase(i + x, j + y);
 
-                    if (!color.equals(getColor) && !getColor.equals(white) && !grid.getSmallRegion(i+x,j+y).getAquise()) {
+                    if (!color.equals(getColor) && !getColor.equals(white) && !grid.getBigRegion(i+x,j+y).getIsAquire()) {
                         grid.getSmallRegion(i+x,j+y).setCase(i + x, j + y, color);
+                        grid.getBigRegion(i+x,j+y).isAquire();
                     }
                 }
             }

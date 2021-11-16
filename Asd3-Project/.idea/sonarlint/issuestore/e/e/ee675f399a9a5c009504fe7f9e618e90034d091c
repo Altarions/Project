@@ -1,0 +1,15 @@
+
+>
+java:S1604("(Make this anonymous inner class a lambda(Ö—§ó
+C
+java:S1604="(Make this anonymous inner class a lambda(ÿ™¢¬úÿÿÿÿ
+>
+java:S1604e"(Make this anonymous inner class a lambda(ÑµÑÈ
+C	java:S108@")Either remove or fill this block of code.(¡»¢üùÿÿÿÿ
+N	java:S106C"9Replace this use of System.out or System.err by a logger.(ö¬
+S	java:S106G"9Replace this use of System.out or System.err by a logger.(Ïíõšûÿÿÿÿ
+C	java:S108h")Either remove or fill this block of code.(¡»¢üùÿÿÿÿ
+N	java:S106j"9Replace this use of System.out or System.err by a logger.(ö¬
+S	java:S106n"9Replace this use of System.out or System.err by a logger.(Ïíõšûÿÿÿÿ
+X
+java:S3252w"=Use static access with "java.awt.Frame" for "MAXIMIZED_BOTH".(Ê¤³ñúÿÿÿÿ

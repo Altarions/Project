@@ -7,10 +7,10 @@ public class BigRegion {
     private Boolean isEmpty;
     private SmallRegion smallRegion;
     private Integer centerI,centerJ;//i = lign, j = colone
-    private Boolean aquise;
+    private Boolean aquire;
 
     public BigRegion(Integer lenght, Integer centerI, Integer centerJ){
-        this.aquise = false;
+        this.aquire = false;
         this.centerI = centerI;
         this.centerJ = centerJ;
         if(lenght>=1){
@@ -26,7 +26,7 @@ public class BigRegion {
         }
 
     }
-    
+
 
     public boolean isGridIsFull(){
         Color white = new Color(255, 255, 255);
@@ -61,6 +61,45 @@ public class BigRegion {
         }else{
             return this.smallRegion;
         }
+    }
+
+    /**
+     * @description fonction who return the last region whit smallregion
+     * @param i ligne
+     * @param j colonne
+     * @return this bigregion
+     */
+    public BigRegion getBigRegion(Integer i, Integer j){
+        if(isEmpty){
+            if(i<=centerI) {
+                if(j<=centerJ) {
+                    return this.NO.getBigRegion(i, j);
+                }else {
+                    return this.NE.getBigRegion(i, j);
+
+                }
+            }else {
+                if(j<=centerJ) {
+                    return this.SO.getBigRegion(i, j);
+                }else {
+                    return this.SE.getBigRegion(i, j);
+                }
+            }
+        }else{
+            return this;
+        }
+    }
+
+    public void isAquire(){
+        if(!isEmpty) {
+            if (smallRegion.isAquise()) this.aquire = true;
+        }else{
+            if (NO.aquire && NE.aquire && SO.aquire && SE.aquire) this.aquire = true;
+        }
+    }
+
+    public boolean getIsAquire(){
+        return this.aquire;
     }
     
 }
