@@ -1,4 +1,6 @@
-package en.cyprien.cameleon;
+package en.cyprien.cameleon.players;
+
+import en.cyprien.cameleon.Game;
 
 import java.awt.*;
 

@@ -1,5 +1,7 @@
 package en.cyprien.cameleon;
 
+import en.cyprien.cameleon.players.Ia;
+import en.cyprien.cameleon.players.Player;
 import en.cyprien.cameleon.region.BigRegion;
 
 import java.awt.*;
@@ -21,24 +23,24 @@ public class Game {
         Point posPlayer;
         Point posRobot;
 
-        affichageTemporaire();
+        basicDisplay();
         while(!gridIsFull){
 
             posPlayer = posPlayer();
             rule((int)posPlayer.getX(), (int)posPlayer.getY(), player.color);
             System.out.println("Player");
-            affichageTemporaire();
+            basicDisplay();
             gridIsFull = grid.isGridIsFull();
 
             if(!gridIsFull) {
                 posRobot = robot.play();
                 rule((int) posRobot.getX(), (int) posRobot.getY(), robot.color);
                 System.out.println("IA");
-                affichageTemporaire();
+                basicDisplay();
                 gridIsFull = grid.isGridIsFull();
             }
         }
-        affichageTemporaire();
+        basicDisplay();
         win();
 
 
@@ -48,6 +50,8 @@ public class Game {
         Scanner clavier = new Scanner(System.in);
         Integer length;
         Integer center;
+
+
 
         System.out.println("Voulez vous utiliser un tableau vide ? sinon il sera deja remplie");
         Boolean gridEmpty = clavier.nextBoolean();
@@ -74,6 +78,8 @@ public class Game {
 
 
         gridIsFull = grid.isGridIsFull();
+
+        //Display display = new Display(this);
     }
 
     private Point posPlayer(){
@@ -100,13 +106,18 @@ public class Game {
         return new Point(i,j);
     }
 
-    void affichageTemporaire(){
+    void basicDisplay(){
 
         for(int i=1; i<=width; i++){
             for(int j=1; j<=width; j++){
-                System.out.print(grid.getSmallRegion(i,j).getColorTemporaire(i,j));
+                System.out.print(grid.getSmallRegion(i,j).getColor(i,j));
+
+                if(j%3 == 0)System.out.print(" ");
+
             }
             System.out.println();
+            if(i%3 == 0)System.out.println();
+
         }
 
     }
@@ -204,7 +215,17 @@ public class Game {
         //rule 3
         if(grid.getSmallRegion(i,j).isFull())grid.getSmallRegion(i,j).setColorList(color);
         //rule 4
+        grid.isAquire(color);
+    }
+
+    public Integer getWidth(){
+        return this.width;
     }
 
 
+    public void restartGrid() {
+        Integer length = (int) Math.sqrt(width/3);
+        Integer center = width / 2;
+        this.grid = new BigRegion(length,center,center);
+    }
 }

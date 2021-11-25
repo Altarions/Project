@@ -1,4 +1,7 @@
-package en.cyprien.cameleon;
+package en.cyprien.cameleon.players;
+
+import en.cyprien.cameleon.Game;
+import en.cyprien.cameleon.region.BigRegion;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -26,7 +29,7 @@ public class Ia extends Player {
                 bestOption = newOption;
                 bestPoint = x;
             }
-
+            this.game.restartGrid();
             this.game.playList(original);
 
         }

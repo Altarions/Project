@@ -24,18 +24,11 @@ public class SmallRegion {
        }
     }
 
-    public void toStringColor(){
-       for(Color x : colorList){
-           System.out.print(x.getBlue());
-       }
-       System.out.println();
-    }
-
     public void setCase(Integer i, Integer j, Color color) {
        i = (i%3 != 0? i%3:3)-1;
        j = (j%3 != 0? j%3:3)-1;
        this.colorList.set(i*3+j,color);
-       isAquise();
+       isAquire();
     }
 
     public boolean sameColor(Color color){
@@ -51,7 +44,7 @@ public class SmallRegion {
        return this.colorList.get(i*3+j);
     }
 
-    public Integer getColorTemporaire(Integer i, Integer j) {
+    public Integer getColor(Integer i, Integer j) {
 
        Color color = getCase(i,j);
 
@@ -60,7 +53,7 @@ public class SmallRegion {
        return 0;
     }
 
-    public void isAquise(){
+    public void isAquire(){
         Color firstElm = colorList.get(0);
         if(!firstElm.equals(new Color(255,255,255))) {
             for (int i = 1; i < colorList.size(); i++) {

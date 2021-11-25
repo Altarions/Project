@@ -1,122 +1,193 @@
 package en.cyprien.cameleon.display;
 
+import en.cyprien.cameleon.Game;
+
+import javax.swing.*;
+
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSlider;
-import javax.swing.JTextArea;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-public class Display {
-    public Display() {
-
-        final JFrame frame = new JFrame();
-        frame.setLayout(new GridLayout(2, 2));
+import java.awt.event.*;
 
 
-        //*****************************************
-        //             Delta Interface
-        //*****************************************
-        final JPanel imagesDelta = new JPanel();
-        imagesDelta.setLayout(new GridLayout(0, 1));
-        final JScrollPane scrollImagesDelta = new JScrollPane(imagesDelta);
-        scrollImagesDelta.getVerticalScrollBar().setUnitIncrement(16);
 
-        JPanel interfaceDelta = new JPanel();
-        interfaceDelta.setLayout(new GridLayout(3, 3));
+@SuppressWarnings("serial")
+public class Display extends JFrame implements ActionListener {
+
+    // Attributs
+    private JButton[][] boutons;
+    private Game game;
+
+    private boolean clk;
+    private JLabel ResultatJ1, ResultatJ2;
+    private JPanel Res;
+    private Container panel;
+    private JPanel Jeu;
 
 
-        final JSlider sliderDelta = new JSlider(0, 192);
+    // Constructeur
+    public Display(Game game) {
 
-        final JTextArea textAreaDelta = new JTextArea(String.valueOf(sliderDelta.getValue()));
+        this.setTitle("Projet Caméléon");
+        this.setSize(500, 500);
+        this.setResizable(true);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Action on slider Delta move
-        sliderDelta.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                textAreaDelta.setText(String.valueOf(sliderDelta.getValue()));
+
+        // Initialiser les composants.
+        this.game = game;
+
+
+        this.ResultatJ1 = new JLabel("Score player1:   " + this.game.scoreCalculation(Color.RED), JLabel.LEFT);
+        this.ResultatJ2 = new JLabel("Score player2:   " + this.game.scoreCalculation(Color.BLUE), JLabel.LEFT);
+        this.Res = new JPanel();
+        this.Res.setLayout(new GridLayout());
+        this.Res.add(ResultatJ1);
+        this.Res.add(ResultatJ2);
+
+        this.Jeu = new JPanel();
+        this.Jeu.setLayout(new GridLayout(game.getWidth(), game.getWidth()));
+
+        this.boutons = new JButton[game.getWidth()][game.getWidth()];
+
+        for (int i = 0; i < game.getWidth(); i++) {
+            for (int j = 0; j < game.getWidth(); j++) {
+
+                this.boutons[i][j] = new JButton();
+                this.boutons[i][j].setActionCommand(i + "," + j);
+                this.boutons[i][j].setBackground(this.game.grid.getSmallRegion(i, j).getCase(i, j));
+                this.Jeu.add(this.boutons[i][j]);
+                this.boutons[i][j].addActionListener(this);
             }
-        });
+        }
+
+        this.panel = this.getContentPane();
+        this.panel.setLayout(new BorderLayout());
+        this.panel.add(this.Jeu, BorderLayout.CENTER);
+        this.panel.add(this.Res, BorderLayout.SOUTH);
+
+        this.clk = true;
+        this.setVisible(true);
+    }
+
+
+    // Méthodes
+    // Changer la couleur d'une case sur la graphique.
+    public void setBackGround() {
+        for (int i = 1; i <= this.game.getWidth(); i++) {
+            for (int j = 1; j <= this.game.getWidth(); j++) {
+                this.boutons[i][j].setBackground(this.game.grid.getSmallRegion(i, j).getCase(i, j));
+            }
+        }
+    }
 
 
 
+    /*
+    // Appliquer le coloriage sur la gui selon les règles.
+    public void Colorier_gui (int i, int j, char idJoueur) {
 
-        JButton buttonDelta1 = new JButton("1");
-        JButton buttonDelta2 = new JButton("2");
-        JButton buttonDelta3 = new JButton("3");
-        JButton buttonDelta4 = new JButton("4");
-        JButton buttonDelta5 = new JButton("5");
-        JButton buttonDelta6 = new JButton("6");
-        JButton buttonDelta7 = new JButton("7");
-        JButton buttonDelta8 = new JButton("8");
-        JButton buttonDelta9 = new JButton("9");
-        buttonDelta1.setBackground(Color.RED);
-        // Action on Button Delta press
-        buttonDelta1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        // Appliquer le coloriage dans le tableau (back-end),
+        if (this.p.Colorier(i, j, idJoueur)) { // Si vrai alors appliquer aussi sur la gui.
 
-                try  {
+            // Changer le couleur de la case.
+            this.colorier_case_gui(i, j);
 
-                } catch (Exception ex) {
-                    System.out.println(ex);
+            // Changer les couleur autour de la case séléctionnée.
+            for (int indice1=-1; indice1<=1; indice1++) {
+                for (int indice2=-1; indice2<=1; indice2++) {
+                    if (this.p.estCaseExiste(i+indice1, j+indice2)) {
+
+                        this.colorier_case_gui(i+indice1, j+indice2);
+                    }
                 }
-
-                frame.setVisible(true);
-                System.out.println("------------------------------");
             }
-        });
-        interfaceDelta.add(buttonDelta1);
-        interfaceDelta.add(buttonDelta2);
-        interfaceDelta.add(buttonDelta3);
-        interfaceDelta.add(buttonDelta4);
-        interfaceDelta.add(buttonDelta5);
-        interfaceDelta.add(buttonDelta6);
-        interfaceDelta.add(buttonDelta7);
-        interfaceDelta.add(buttonDelta8);
-        interfaceDelta.add(buttonDelta9);
+        }
+        this.regler_plateau();
+    }
+    /*
+    /**
+     * role :
+     *
+    public void MessageGameOver() {
 
-
-
-        //*****************************************
-        //             Phi Interface
-        //*****************************************
-        final JPanel imagesPhi = new JPanel();
-        imagesPhi.setLayout(new GridLayout(0, 1));
-        final JScrollPane scrollImagesPhi = new JScrollPane(imagesPhi);
-        scrollImagesPhi.getVerticalScrollBar().setUnitIncrement(16);
-        JPanel interfacePhi = new JPanel();
-        interfacePhi.setLayout(new GridLayout(2, 2));
-
-
-
-
-        JButton buttonPhi = new JButton("Compress Phi");
-        // Action on Button Phi press
-        buttonPhi.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-                try {
-                    } catch (Exception ex) {
-                    System.out.println(ex);
-                }
-
-                frame.setVisible(true);
-                System.out.println("------------------------------");
+        if (this.p.CalculeScore() == (int) Math.pow(this.p.nb_cases, 2)) {
+            String message = " ";
+            if (this.p.J1.Score > this.p.J2.Score) {
+                message = "GAME OVER: Player1 win!";
+            } else if (this.p.J2.Score > this.p.J1.Score) {
+                message = "GAME OVER: Player2 win!";
+            } else {
+                message = "GAME OVER: Player1 and Player2 are equal.";
             }
-        });
+            System.out.println(message);
+            JOptionPane.showInternalMessageDialog(this.panel, message);
+        }
+    }
+    */
 
-        frame.add(interfaceDelta);
-        frame.add(interfacePhi);
-        frame.add(scrollImagesDelta);
-        frame.add(scrollImagesPhi);
-        frame.setSize(1000, 700);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setVisible(true);
+    /**************************************ACTION LISTENER*******************************************/
+    public void actionPerformed(ActionEvent e) {
+        /*
+        // Traduire les commandes.
+        String id_tmp = e.getActionCommand();
+        String i_str = "", j_str = "";
+        boolean b = false;
+
+        // Chercher i et j dans la commande. (ex: commande = "i,j" -> resultats: "i" et "j").
+        for (int indice=0; indice<id_tmp.length(); indice++) {
+            // Chercher le virgule qui sépare i et j.
+            if (id_tmp.charAt(indice) == ',') { b = true; continue; }
+            // Construire i et j.
+            if (!b) { i_str = i_str + id_tmp.charAt(indice); }
+            else { j_str = j_str + id_tmp.charAt(indice); }
+        }
+        int i = Integer.parseInt(i_str);
+        int j = Integer.parseInt(j_str);
+
+
+        // Gérer le tour entre les joueurs.
+        char idJoueur;
+        if (this.clk) { idJoueur = this.p.J1.id; } else { idJoueur = this.p.J2.id; }
+
+
+        // Contôle du clickage sur des cases déjà occupées.
+        if (p.estCaseLibre(i, j)) {
+
+            // Appliquer le coloriage.
+            this.Colorier_gui(i, j, idJoueur); // Choisir le Jeu.
+
+            // Mise à jour les scores.
+            this.ResultatJ1.setText("Score player1:   " + this.p.J1.Score);
+            this.ResultatJ2.setText("Score player2:   " + this.p.J2.Score);
+
+
+            // Régler le tour.
+            this.clk = !this.clk;
+        }
+        // Message: GAME OVER
+        this.MessageGameOver();*/
     }
 }
+    /*******************************************MAIN*************************************************/
+
+    /*public static void main(String[] args) {
+
+        char caseVide = 'O';
+        char idJ1 = 'R';
+        char idJ2 = 'B';
+        int n = 2;
+        boolean initVide = true;
+
+        Plateau p;
+
+        //p = new Brave (n, initVide, caseVide, idJ1, idJ2);
+        p = new Temeraire (n, initVide, caseVide, idJ1, idJ2);
+
+        @SuppressWarnings("unused")
+        Display gui = new Display(p);
+
+
+    } // Fin main.
+
+} // Fin GUI.
+*/
