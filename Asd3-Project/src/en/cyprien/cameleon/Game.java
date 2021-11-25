@@ -206,7 +206,7 @@ public class Game {
                 if(i+x>0 && j+y>0 && i+x<=width && j+y<=width) {
                     Color getColor = grid.getSmallRegion(i+x,j+y).getCase(i + x, j + y);
 
-                    if (!color.equals(getColor) && !getColor.equals(white) && !grid.getSmallRegion(i+x,j+y).getAquire()) {
+                    if (!color.equals(getColor) && !getColor.equals(white) && !grid.getSmallRegion(i+x,j+y).getAcquired()) {
                         grid.getSmallRegion(i+x,j+y).setCase(i + x, j + y, color);
                     }
                 }
@@ -215,7 +215,7 @@ public class Game {
         //rule 3
         if(grid.getSmallRegion(i,j).isFull())grid.getSmallRegion(i,j).setColorList(color);
         //rule 4
-        grid.isAquire(color);
+        grid.isAcquired(color);
     }
 
     public Integer getWidth(){

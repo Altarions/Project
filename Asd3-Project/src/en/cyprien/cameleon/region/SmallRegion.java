@@ -5,11 +5,11 @@ import java.util.ArrayList;
 
 public class SmallRegion {
    private ArrayList<Color> colorList;
-   private Boolean aquire;
+   private Boolean acquired;
 
    SmallRegion(){
-       this.colorList = new ArrayList<Color>(9);
-       this.aquire = false;
+       this.colorList = new ArrayList<>(9);
+       this.acquired = false;
        initWhite();
    }
 
@@ -28,14 +28,7 @@ public class SmallRegion {
        i = (i%3 != 0? i%3:3)-1;
        j = (j%3 != 0? j%3:3)-1;
        this.colorList.set(i*3+j,color);
-       isAquire();
-    }
-
-    public boolean sameColor(Color color){
-       for(Color x: colorList){
-           if(x != color)return false;
-       }
-       return true;
+       isAcquired();
     }
 
     public Color getCase(Integer i, Integer j){
@@ -53,19 +46,19 @@ public class SmallRegion {
        return 0;
     }
 
-    public void isAquire(){
+    public void isAcquired(){
         Color firstElm = colorList.get(0);
         if(!firstElm.equals(new Color(255,255,255))) {
             for (int i = 1; i < colorList.size(); i++) {
                 if (firstElm.equals(colorList.get(i))) {
-                    this.aquire = true;
+                    this.acquired = true;
                 } else {
-                    this.aquire = false;
+                    this.acquired = false;
                     return;
                 }
             }
         }else{
-            this.aquire = false;
+            this.acquired = false;
         }
     }
 
@@ -77,10 +70,10 @@ public class SmallRegion {
        for(int i=0; i<9; i++){
            colorList.set(i, color);
        }
-       this.aquire = true;
+       this.acquired = true;
     }
 
-    public Boolean getAquire() {
-        return aquire;
+    public Boolean getAcquired() {
+        return acquired;
     }
 }

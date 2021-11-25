@@ -7,11 +7,17 @@ public class BigRegion {
     private Boolean isEmpty;
     private SmallRegion smallRegion;
     private Integer centerI,centerJ;//i = lign, j = colone
-    private Boolean aquire;
+    private Boolean acquired;
     private Integer colorRegion;//1 = red, 0 = white and -1 = blue
 
+    /**
+     * @role
+     * @param lenght
+     * @param centerI
+     * @param centerJ
+     */
     public BigRegion(Integer lenght, Integer centerI, Integer centerJ){
-        this.aquire = false;
+        this.acquired = false;
         this.colorRegion = 0;
         this.centerI = centerI;
         this.centerJ = centerJ;
@@ -28,8 +34,11 @@ public class BigRegion {
         }
 
     }
-    
 
+    /**
+     * @role
+     * @return boolean
+     */
     public boolean isGridIsFull(){
         Color white = new Color(255, 255, 255);
         boolean result = true;
@@ -65,15 +74,15 @@ public class BigRegion {
         }
     }
 
-    public void isAquire(Color lastColorPlay){
-        if(!aquire) {
+    public void isAcquired(Color lastColorPlay){
+        if(!acquired) {
             if (isEmpty) {
-                this.NO.isAquire(lastColorPlay);
-                this.NE.isAquire(lastColorPlay);
-                this.SO.isAquire(lastColorPlay);
-                this.SE.isAquire(lastColorPlay);
-                System.out.println(NO.aquire+" "+NE.aquire+" "+SO.aquire+" "+SE.aquire);
-                if (NO.aquire && NE.aquire && SO.aquire && SE.aquire) {
+                this.NO.isAcquired(lastColorPlay);
+                this.NE.isAcquired(lastColorPlay);
+                this.SO.isAcquired(lastColorPlay);
+                this.SE.isAcquired(lastColorPlay);
+                System.out.println(NO.acquired +" "+NE.acquired +" "+SO.acquired +" "+SE.acquired);
+                if (NO.acquired && NE.acquired && SO.acquired && SE.acquired) {
 
                     Integer colorInt = NO.colorRegion + NE.colorRegion + SO.colorRegion + SE.colorRegion;
                     System.out.println(colorInt);
@@ -86,13 +95,13 @@ public class BigRegion {
                             setAllSmallRegion(lastColorPlay);
                         }
                     }
-                    this.aquire = true;
+                    this.acquired = true;
                 }
             } else {
-                if (smallRegion.getAquire()) {
+                if (smallRegion.getAcquired()) {
                     //if the small region is red, the value is 1 else -1 for blue.
                     this.colorRegion = (smallRegion.getCase(1, 1) == Color.RED ? 1 : -1);
-                    this.aquire = true;
+                    this.acquired = true;
                 }
             }
         }
@@ -107,10 +116,6 @@ public class BigRegion {
         }else{
             this.smallRegion.setColorList(color);
         }
-    }
-
-    public boolean getIsAquire(){
-        return this.aquire;
     }
     
 }
