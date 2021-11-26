@@ -1,5 +1,6 @@
 package en.cyprien.cameleon;
 
+import en.cyprien.cameleon.display.Display;
 import en.cyprien.cameleon.players.Ia;
 import en.cyprien.cameleon.players.Player;
 import en.cyprien.cameleon.region.BigRegion;
@@ -16,38 +17,38 @@ public class Game {
     private boolean braveRule;
     private Integer width;
 
-    public void start(){
-        init();
-        this.player = new Player(this, new Color(255,0,0));
-        this.robot = new Ia(this, new Color(0,0,255));
-        Point posPlayer;
+    public boolean play(Integer i, Integer j){
+
+        Point posPlayer = new Point(i,j);
         Point posRobot;
 
-        basicDisplay();
-        while(!gridIsFull){
 
-            posPlayer = posPlayer();
-            rule((int)posPlayer.getX(), (int)posPlayer.getY(), player.color);
-            System.out.println("Player");
+        rule((int)posPlayer.getX(), (int)posPlayer.getY(), player.color);
+        System.out.println("Player");
+        basicDisplay();
+        gridIsFull = grid.isGridIsFull();
+
+        if(!gridIsFull) {
+            posRobot = robot.play();
+            rule((int) posRobot.getX(), (int) posRobot.getY(), robot.color);
+            System.out.println("IA");
             basicDisplay();
             gridIsFull = grid.isGridIsFull();
 
-            if(!gridIsFull) {
-                posRobot = robot.play();
-                rule((int) posRobot.getX(), (int) posRobot.getY(), robot.color);
-                System.out.println("IA");
-                basicDisplay();
-                gridIsFull = grid.isGridIsFull();
-            }
         }
-        basicDisplay();
-        win();
-
-
+        if(gridIsFull) {
+            basicDisplay();
+            System.out.println(win());
+            return true;
+        }else{
+            return false;
+        }
     }
 
-    private void init(){
+    void init(){
         Scanner clavier = new Scanner(System.in);
+        this.player = new Player(this, Color.RED);
+        this.robot = new Ia(this, Color.BLUE);
         Integer length;
         Integer center;
 
@@ -76,34 +77,9 @@ public class Game {
         System.out.println("Voulez vous faire les règles brave cameleon ? Sinon les règle temeraire seront appliqués ");
         this.braveRule = clavier.nextBoolean();
 
-
         gridIsFull = grid.isGridIsFull();
+        basicDisplay();
 
-        //Display display = new Display(this);
-    }
-
-    private Point posPlayer(){
-        int i = 0;
-        int j = 0;
-        boolean posValid = false;
-        while(!posValid){
-            Scanner clavier = new Scanner(System.in);
-            System.out.println("Position i : (int)");
-            i = clavier.nextInt();
-            System.out.println("Position j : (int)");
-            j = clavier.nextInt();
-            if(i<=width &&
-                    i>0 &&
-                    j<=width &&
-                    j>0 &&
-                    grid.getSmallRegion(i,j).getCase(i,j).equals(new Color(255,255,255))){
-                posValid = true;
-            }else{
-                System.out.println("Vous avez rentré une mauvaise position");
-            }
-        }
-
-        return new Point(i,j);
     }
 
     void basicDisplay(){
@@ -122,11 +98,11 @@ public class Game {
 
     }
 
-    void win(){
+    public String win(){
         Integer redScore = player.scoreCalculation();
         Integer blueScore = robot.scoreCalculation();
 
-        System.out.println("Le joueur "+(redScore>blueScore? "Rouge":"Bleu"));
+        return ("Le joueur "+(redScore>blueScore? "Rouge":"Bleu"));
     }
 
     public Integer scoreCalculation(Color color){
@@ -180,7 +156,7 @@ public class Game {
     }
 
     private void braveRule(Integer i, Integer j, Color color){
-        Color white = new Color(255, 255, 255);
+        Color white = Color.WHITE;
         //rule 1
         grid.getSmallRegion(i,j).setCase(i, j, color);
         //rule 2
@@ -197,7 +173,7 @@ public class Game {
     }
 
     private void temerityRule(Integer i, Integer j, Color color) {
-        Color white = new Color(255, 255, 255);
+        Color white = Color.WHITE;
         //rule 1
         grid.getSmallRegion(i,j).setCase(i, j, color);
         //rule 2

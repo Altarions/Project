@@ -18,7 +18,7 @@ public class SmallRegion {
     }
 
     public void initWhite(){
-       Color white = new Color(255, 255, 255);
+       Color white = Color.WHITE;
        for(int i=0; i<9; i++){
            this.colorList.add(white);
        }
@@ -41,14 +41,14 @@ public class SmallRegion {
 
        Color color = getCase(i,j);
 
-       if(color.equals(new Color(255, 0, 0)))return 1;
-       if(color.equals(new Color(0, 0, 255)))return 2;
+       if(color.equals(Color.RED))return 1;
+       if(color.equals(Color.BLUE))return 2;
        return 0;
     }
 
     public void isAcquired(){
         Color firstElm = colorList.get(0);
-        if(!firstElm.equals(new Color(255,255,255))) {
+        if(!firstElm.equals(Color.WHITE)) {
             for (int i = 1; i < colorList.size(); i++) {
                 if (firstElm.equals(colorList.get(i))) {
                     this.acquired = true;
@@ -63,7 +63,7 @@ public class SmallRegion {
     }
 
     public boolean isFull(){
-       return !colorList.contains(new Color(255,255,255));
+       return !colorList.contains(Color.WHITE);
     }
 
     public void setColorList(Color color){

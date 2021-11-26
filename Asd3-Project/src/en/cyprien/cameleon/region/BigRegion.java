@@ -81,11 +81,11 @@ public class BigRegion {
                 this.NE.isAcquired(lastColorPlay);
                 this.SO.isAcquired(lastColorPlay);
                 this.SE.isAcquired(lastColorPlay);
-                System.out.println(NO.acquired +" "+NE.acquired +" "+SO.acquired +" "+SE.acquired);
+
                 if (NO.acquired && NE.acquired && SO.acquired && SE.acquired) {
 
                     Integer colorInt = NO.colorRegion + NE.colorRegion + SO.colorRegion + SE.colorRegion;
-                    System.out.println(colorInt);
+
                     if (colorInt < 0) {
                         setAllSmallRegion(Color.BLUE);
                     } else {

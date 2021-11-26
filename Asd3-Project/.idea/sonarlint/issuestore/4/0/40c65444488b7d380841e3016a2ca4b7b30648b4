@@ -1,14 +1,0 @@
-
-‡
-java:S1319"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(­Ú¾
-Œ
-java:S1319š"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(Ú«­æúÿÿÿÿ
-‡
-java:S1319¥"pThe type of the "liste" object should be an interface such as "List" rather than the implementation "ArrayList".(ñŒíÎ
-]
-java:S2184G"BCast one of the operands of this division operation to a "double".(´µ†Šøÿÿÿÿ
-Y
-java:S2184ã"BCast one of the operands of this division operation to a "double".(ÍÇå´
-k
-java:S1104"PMake grid a static final constant or non-public and provide accessors if needed.(µ¤¯öøÿÿÿÿ
-Q	java:S125R"<This block of commented-out lines of code should be removed.(¼‡íŞ
