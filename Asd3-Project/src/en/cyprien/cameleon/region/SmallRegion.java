@@ -13,19 +13,26 @@ public class SmallRegion {
     private ArrayList<Color> colorList;
     private Boolean acquired;
 
+    /**
+     * @role : constructor of smallRegion class.
+     */
     SmallRegion(){
         this.colorList = new ArrayList<>(9);
         this.acquired = false;
         initWhite();
     }
 
+
     //------------------- GETTER & SETTER -------------------//
+
+
     public ArrayList<Color> getColorList() {
         return colorList;
     }
     public Boolean getAcquired() {
         return acquired;
     }
+
 
     /**
      * @role : return the color of an given box
@@ -86,7 +93,9 @@ public class SmallRegion {
         this.acquired = true;
     }
 
+
     //------------------- END GETTER & SETTER -------------------//
+
 
     /**
      * @role : initialize the boxes of the table, in white.
@@ -120,8 +129,10 @@ public class SmallRegion {
         }
     }
 
+
     public boolean isFull(){
        return !colorList.contains(Color.WHITE);
     }
+
 
 }
