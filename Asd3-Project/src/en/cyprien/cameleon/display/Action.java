@@ -1,7 +1,5 @@
 package en.cyprien.cameleon.display;
 
-import en.cyprien.cameleon.Game;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

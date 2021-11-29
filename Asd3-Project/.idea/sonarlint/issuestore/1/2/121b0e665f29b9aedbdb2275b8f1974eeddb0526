@@ -2,9 +2,9 @@
 ‹
 java:S1319 "pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(ï‚ŒÊşÿÿÿÿ
 g
-java:S2095"LUse try-with-resources or close this "BufferedReader" in a "finally" clause.(†áûÿÿÿÿ
-g
 java:S2095#"LUse try-with-resources or close this "BufferedReader" in a "finally" clause.(†áûÿÿÿÿ
+g
+java:S2095"LUse try-with-resources or close this "BufferedReader" in a "finally" clause.(†áûÿÿÿÿ
 1
 java:S3626"Remove this redundant jump.(ûÁİ…
 t

@@ -1,6 +1,5 @@
 package en.cyprien.cameleon;
 
-import en.cyprien.cameleon.display.Display;
 import en.cyprien.cameleon.players.Ia;
 import en.cyprien.cameleon.players.Player;
 import en.cyprien.cameleon.region.BigRegion;
@@ -17,8 +16,28 @@ public class Game {
     private boolean braveRule;
     private Integer width;
 
-    public boolean play(Integer i, Integer j){
+    public Game(Integer length, Boolean gameType){
+        this.player = new Player(this, Color.RED);
+        this.robot = new Ia(this, Color.BLUE);
+        this.braveRule = gameType;
+        this.width = (int) (3 * Math.pow(2, length));
+        Integer center = width / 2;
+        grid = new BigRegion(length,center,center);
+    }
 
+    public Game(Integer width, ArrayList<Color> gridFile, Boolean gameType){
+        this.player = new Player(this, Color.RED);
+        this.robot = new Ia(this, Color.BLUE);
+        this.braveRule = gameType;
+        this.width = width;
+        Integer length = (int) Math.sqrt(width/3);
+        Integer center = width / 2;
+        grid = new BigRegion(length,center,center);
+        playList(gridFile);
+    }
+
+    public boolean play(Integer i, Integer j){
+        System.out.println(braveRule);
         Point posPlayer = new Point(i,j);
         Point posRobot;
 
@@ -45,42 +64,6 @@ public class Game {
         }
     }
 
-    void init(){
-        Scanner clavier = new Scanner(System.in);
-        this.player = new Player(this, Color.RED);
-        this.robot = new Ia(this, Color.BLUE);
-        Integer length;
-        Integer center;
-
-
-
-        System.out.println("Voulez vous utiliser un tableau vide ? sinon il sera deja remplie");
-        Boolean gridEmpty = clavier.nextBoolean();
-
-        if(gridEmpty) {
-            System.out.println("Taille du plateau : (int)");
-            length = clavier.nextInt();
-            this.width = (int) (3 * Math.pow(2, length));
-            center = width / 2;
-            grid = new BigRegion(length,center,center);
-        }else{
-            System.out.println("Rentrez le nom d'un fichier : ");
-            String nameFile = clavier.next();
-            Read file = new Read(nameFile+".txt");
-
-            this.width = file.getWidthFile();
-            length = (int) Math.sqrt(width/3);
-            center = width / 2;
-            grid = new BigRegion(length,center,center);
-            playList(file.getGridFile());
-        }
-        System.out.println("Voulez vous faire les règles brave cameleon ? Sinon les règle temeraire seront appliqués ");
-        this.braveRule = clavier.nextBoolean();
-
-        gridIsFull = grid.isGridIsFull();
-        basicDisplay();
-
-    }
 
     void basicDisplay(){
 
@@ -102,7 +85,7 @@ public class Game {
         Integer redScore = player.scoreCalculation();
         Integer blueScore = robot.scoreCalculation();
 
-        return ("Le joueur "+(redScore>blueScore? "Rouge":"Bleu"));
+        return (redScore>blueScore? "Victoire !\nVous avez Gagnez":"Defaite !\nVous avez perdu");
     }
 
     public Integer scoreCalculation(Color color){

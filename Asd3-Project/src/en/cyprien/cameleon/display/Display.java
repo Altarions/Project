@@ -1,30 +1,28 @@
 package en.cyprien.cameleon.display;
 
 import en.cyprien.cameleon.Game;
+import en.cyprien.cameleon.Read;
 
 import javax.swing.*;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.util.ArrayList;
 
 import static java.lang.System.exit;
+import static java.lang.System.in;
 
 
 public class Display extends JFrame {
 
-    // Attributs
     private ArrayList<JButton> tabButton;
     private Game game;
 
     private JLabel player, robot;
-    private JPanel Res;
+    private JPanel res, panel;
     private Container container;
-    private JPanel panel;
 
 
-    // Constructeur
-    public Display(Game game) {
+    public Display() {
 
         this.setTitle("Projet Caméléon");
         this.setSize(500, 500);
@@ -32,14 +30,44 @@ public class Display extends JFrame {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        this.game = game;
+        this.container = this.getContentPane();
 
-        this.player = new JLabel("Score player:   " + this.game.scoreCalculation(Color.RED), JLabel.LEFT);
-        this.robot = new JLabel("Score ia:   " + this.game.scoreCalculation(Color.BLUE), JLabel.LEFT);
-        this.Res = new JPanel();
-        this.Res.setLayout(new GridLayout());
-        this.Res.add(player);
-        this.Res.add(robot);
+        this.game = initGame();
+        initDisplay();
+
+
+    }
+
+    private Game initGame() {
+        JPanel initialisation= new JPanel();
+        String gridEmpty = JOptionPane.showInputDialog(initialisation, "Voulez vous utiliser un plateau vide ? (true/false)");
+
+        if(gridEmpty.equals("true")){
+            String length = JOptionPane.showInputDialog(initialisation, "Avec quelle taille de plateau voulez vous jouer ?");
+            return new Game(Integer.parseInt(length), gameType(initialisation));
+        }else{
+            String nameFile = JOptionPane.showInputDialog(initialisation, "Rentrez le nom du fichier sans l'extension .");
+            Read file = new Read(nameFile+".txt");
+            return new Game(file.getWidthFile(), file.getGridFile(), gameType(initialisation));
+        }
+
+    }
+    private boolean gameType(JPanel initialisation){
+        String gameType = JOptionPane.showInputDialog(initialisation, "Voulez vous jouer avec les regles Brave Caméléon ? Sinon les regles Téméraires seront appliquées!");
+
+        return gameType.equals("true");
+    }
+
+    private void initDisplay(){
+
+        this.player = new JLabel("Score player:   " + this.game.scoreCalculation(Color.RED), JLabel.CENTER);
+        this.robot = new JLabel("Score ia:   " + this.game.scoreCalculation(Color.BLUE), JLabel.CENTER);
+        this.player.setForeground(Color.RED);
+        this.robot.setForeground(Color.BLUE);
+        this.res = new JPanel();
+        this.res.setLayout(new GridLayout());
+        this.res.add(player);
+        this.res.add(robot);
 
         this.panel = new JPanel();
         this.panel.setLayout(new GridLayout(game.getWidth(), game.getWidth()));
@@ -56,13 +84,12 @@ public class Display extends JFrame {
                 this.panel.add(button);
             }
         }
-        this.container = this.getContentPane();
+
         this.container.setLayout(new BorderLayout());
         this.container.add(this.panel, BorderLayout.CENTER);
-        this.container.add(this.Res, BorderLayout.SOUTH);
+        this.container.add(this.res, BorderLayout.NORTH);
 
         this.setVisible(true);
-
     }
 
 
@@ -78,15 +105,18 @@ public class Display extends JFrame {
         this.player.setText("Score player:   " + this.game.scoreCalculation(Color.RED));
         this.robot.setText("Score ia:   " + this.game.scoreCalculation(Color.BLUE));
 
-        if (win) {
-            JOptionPane.showMessageDialog(this.panel, game.win());
-            exit(0);
-        }
+        if (win)win();
 
 
     }
 
-    public void error() {
+    void error() {
         JOptionPane.showMessageDialog(this.panel, "Vous ne pouvez pas jouer sur cette case !");
     }
+
+    private void win(){
+        JOptionPane.showMessageDialog(this.panel, game.win());
+        exit(0);
+    }
+
 }
