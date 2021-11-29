@@ -6,7 +6,6 @@ import en.cyprien.cameleon.region.BigRegion;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Game {
     public BigRegion grid;
@@ -69,7 +68,7 @@ public class Game {
 
         for(int i=1; i<=width; i++){
             for(int j=1; j<=width; j++){
-                System.out.print(grid.getSmallRegion(i,j).getColor(i,j));
+                System.out.print(grid.getSmallRegion(i,j).getBoxOwner(i,j));
 
                 if(j%3 == 0)System.out.print(" ");
 
@@ -93,7 +92,7 @@ public class Game {
         Integer result = 0;
         for(int i=1; i<=width; i++){
             for(int j=1; j<=width; j++){
-                if(grid.getSmallRegion(i,j).getCase(i,j).equals(color)) result++;
+                if(grid.getSmallRegion(i,j).getBoxColor(i,j).equals(color)) result++;
             }
         }
         return result;
@@ -104,7 +103,7 @@ public class Game {
 
         for(int i=1; i<=width; i++){
             for(int j=1; j<=width; j++){
-                if(grid.getSmallRegion(i,j).getCase(i,j).equals(color)) listPoint.add(new Point(i,j));
+                if(grid.getSmallRegion(i,j).getBoxColor(i,j).equals(color)) listPoint.add(new Point(i,j));
             }
         }
         return listPoint;
@@ -115,7 +114,7 @@ public class Game {
 
         for(int i=1; i<=width; i++){
             for(int j=1; j<=width; j++){
-                listColor.add(grid.getSmallRegion(i,j).getCase(i,j));
+                listColor.add(grid.getSmallRegion(i,j).getBoxColor(i,j));
             }
         }
         return listColor;
@@ -146,7 +145,7 @@ public class Game {
         for(int x=-1; x<=1; x++){
             for(int y=-1; y<=1; y++){
                 if(i+x>0 && j+y>0 && i+x<=width && j+y<=width) {
-                    Color getColor = grid.getSmallRegion(i+x,j+y).getCase(i + x, j + y);
+                    Color getColor = grid.getSmallRegion(i+x,j+y).getBoxColor(i + x, j + y);
                     if (!color.equals(getColor) && !getColor.equals(white)) {
                         grid.getSmallRegion(i+x,j+y).setCase(i + x, j + y, color);
                     }
@@ -163,7 +162,7 @@ public class Game {
         for(int x=-1; x<=1; x++){
             for(int y=-1; y<=1; y++){
                 if(i+x>0 && j+y>0 && i+x<=width && j+y<=width) {
-                    Color getColor = grid.getSmallRegion(i+x,j+y).getCase(i + x, j + y);
+                    Color getColor = grid.getSmallRegion(i+x,j+y).getBoxColor(i + x, j + y);
 
                     if (!color.equals(getColor) && !getColor.equals(white) && !grid.getSmallRegion(i+x,j+y).getAcquired()) {
                         grid.getSmallRegion(i+x,j+y).setCase(i + x, j + y, color);

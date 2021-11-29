@@ -1,0 +1,17 @@
+
+D
+java:S1128"0Remove this unused import 'java.lang.System.in'.(î€¼Æ
+k
+java:S1450"RRemove the "res" field and declare it as a local variable in the relevant methods.(œÑÅ¨øÿÿÿÿ
+<
+java:S1659"#Declare "robot" on a separate line.(½úäöÿÿÿÿÿ
+<
+java:S1659"#Declare "panel" on a separate line.(œÑÅ¨øÿÿÿÿ
+F
+java:S1948"&Make "game" transient or serializable.(Ä¿–Žøÿÿÿÿ8ÿÒåáÖ/
+\
+java:S3252"IUse static access with "javax.swing.WindowConstants" for "EXIT_ON_CLOSE".(ºÀœx
+U
+java:S3252"AUse static access with "javax.swing.SwingConstants" for "CENTER".(…‹›Á
+U
+java:S3252"AUse static access with "javax.swing.SwingConstants" for "CENTER".(“¡ñ–

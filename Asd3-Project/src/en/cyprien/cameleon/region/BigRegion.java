@@ -100,7 +100,7 @@ public class BigRegion {
             } else {
                 if (smallRegion.getAcquired()) {
                     //if the small region is red, the value is 1 else -1 for blue.
-                    this.colorRegion = (smallRegion.getCase(1, 1) == Color.RED ? 1 : -1);
+                    this.colorRegion = (smallRegion.getBoxColor(1, 1) == Color.RED ? 1 : -1);
                     this.acquired = true;
                 }
             }

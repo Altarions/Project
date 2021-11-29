@@ -9,7 +9,6 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import static java.lang.System.exit;
-import static java.lang.System.in;
 
 
 public class Display extends JFrame {
@@ -78,7 +77,7 @@ public class Display extends JFrame {
             for (int j = 1; j <= game.getWidth(); j++) {
                 JButton button = new JButton();
                 button.setOpaque(true);
-                button.setBackground(this.game.grid.getSmallRegion(i, j).getCase(i, j));
+                button.setBackground(this.game.grid.getSmallRegion(i, j).getBoxColor(i, j));
                 button.addActionListener(new Action(this, button, i, j));
                 this.tabButton.add(button);
                 this.panel.add(button);
@@ -99,7 +98,7 @@ public class Display extends JFrame {
         for (int i = 0; i < game.getWidth(); i++) {
             for (int j = 0; j < game.getWidth(); j++) {
 
-                tabButton.get(i*game.getWidth()+j).setBackground(game.grid.getSmallRegion(i+1, j+1).getCase(i+1, j+1));
+                tabButton.get(i*game.getWidth()+j).setBackground(game.grid.getSmallRegion(i+1, j+1).getBoxColor(i+1, j+1));
             }
         }
         this.player.setText("Score player:   " + this.game.scoreCalculation(Color.RED));
