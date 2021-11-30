@@ -1,0 +1,11 @@
+
+b	java:S116"MRename this field "NO" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾ø—
+b	java:S116"MRename this field "NE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾ø—
+b	java:S116"MRename this field "SO" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾ø—
+b	java:S116"MRename this field "SE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾ø—
+U
+java:S1659"?Declare "NE" and all following declarations on a separate line.(¾ø—
+G
+java:S1659"%Declare "centerJ" on a separate line.(ÇÅ‚âøÿÿÿÿ8«ı“äÖ/
+o
+java:S3776}"RRefactor this method to reduce its Cognitive Complexity from 26 to the 15 allowed.(Å²ç€8úºíÖ/

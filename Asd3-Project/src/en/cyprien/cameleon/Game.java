@@ -6,15 +6,28 @@ import en.cyprien.cameleon.region.BigRegion;
 
 import java.awt.*;
 import java.util.ArrayList;
-
+/**
+ * @className : Game
+ * @role : manages all the back end of the game
+ * @version :  1.0.0
+ * @date : 29/11/2021
+ * @author : GARNIER Cyprien
+ */
 public class Game {
     public BigRegion grid;
-    private boolean gridIsFull;
+
     private Player player;
     private Ia robot;
+
+    private boolean gridIsFull;
     private boolean braveRule;
     private Integer width;
 
+    /**
+     * @role :
+     * @param length :
+     * @param gameType :
+     */
     public Game(Integer length, Boolean gameType){
         this.player = new Player(this, Color.RED);
         this.robot = new Ia(this, Color.BLUE);
@@ -24,6 +37,13 @@ public class Game {
         grid = new BigRegion(length,center,center);
     }
 
+
+    /**
+     * @role :
+     * @param width :
+     * @param gridFile :
+     * @param gameType :
+     */
     public Game(Integer width, ArrayList<Color> gridFile, Boolean gameType){
         this.player = new Player(this, Color.RED);
         this.robot = new Ia(this, Color.BLUE);
@@ -35,6 +55,57 @@ public class Game {
         playList(gridFile);
     }
 
+
+    //------------------- GETTER & SETTER -------------------//
+
+    /**
+     * @role :
+     * @complexity :
+     * @param color :
+     * @return : ArrayList<Point>.
+     */
+    public ArrayList<Point> getAllPosColor(Color color){
+        ArrayList<Point> listPoint = new ArrayList<>();
+
+        for(int i=1; i<=width; i++){
+            for(int j=1; j<=width; j++){
+                if(grid.getSmallRegion(i,j).getBoxColor(i,j).equals(color)) listPoint.add(new Point(i,j));
+            }
+        }
+        return listPoint;
+    }
+
+
+    /**
+     * @role :
+     * @complexity :
+     * @return : ArrayList<Color>.
+     */
+    public ArrayList<Color> getAllColor(){
+        ArrayList<Color> listColor = new ArrayList<>();
+
+        for(int i=1; i<=width; i++){
+            for(int j=1; j<=width; j++){
+                listColor.add(grid.getSmallRegion(i,j).getBoxColor(i,j));
+            }
+        }
+        return listColor;
+    }
+
+    public Integer getWidth(){
+        return this.width;
+    }
+
+
+    //------------------- END GETTER & SETTER -------------------//
+
+    /**
+     * @role :
+     * @complexity :
+     * @param i :
+     * @param j :
+     * @return : boolean.
+     */
     public boolean play(Integer i, Integer j){
         System.out.println(braveRule);
         Point posPlayer = new Point(i,j);
@@ -63,7 +134,10 @@ public class Game {
         }
     }
 
-
+    /**
+     * @role :
+     * @complexity :
+     */
     void basicDisplay(){
 
         for(int i=1; i<=width; i++){
@@ -80,6 +154,11 @@ public class Game {
 
     }
 
+    /**
+     * @role :
+     * @complexity :
+     * @return : String.
+     */
     public String win(){
         Integer redScore = player.scoreCalculation();
         Integer blueScore = robot.scoreCalculation();
@@ -87,6 +166,12 @@ public class Game {
         return (redScore>blueScore? "Victoire !\nVous avez Gagnez":"Defaite !\nVous avez perdu");
     }
 
+    /**
+     * @role :
+     * @complexity :
+     * @param color :
+     * @return : Integer.
+     */
     public Integer scoreCalculation(Color color){
 
         Integer result = 0;
@@ -98,36 +183,28 @@ public class Game {
         return result;
     }
 
-    public ArrayList<Point> getAllPosColor(Color color){
-        ArrayList<Point> listPoint = new ArrayList<>();
 
+    /**
+     * @role :
+     * @complexity :
+     * @param colorList :
+     */
+    public void playList(ArrayList<Color> colorList){
         for(int i=1; i<=width; i++){
             for(int j=1; j<=width; j++){
-                if(grid.getSmallRegion(i,j).getBoxColor(i,j).equals(color)) listPoint.add(new Point(i,j));
-            }
-        }
-        return listPoint;
-    }
-
-    public ArrayList<Color> getAllColor(){
-        ArrayList<Color> listColor = new ArrayList<>();
-
-        for(int i=1; i<=width; i++){
-            for(int j=1; j<=width; j++){
-                listColor.add(grid.getSmallRegion(i,j).getBoxColor(i,j));
-            }
-        }
-        return listColor;
-    }
-
-    public void playList(ArrayList<Color> liste){
-        for(int i=1; i<=width; i++){
-            for(int j=1; j<=width; j++){
-                grid.getSmallRegion(i,j).setCase(i,j, liste.get((i-1)*width+(j-1)));
+                grid.getSmallRegion(i,j).setCase(i,j, colorList.get((i-1)*width+(j-1)));
             }
         }
     }
 
+
+    /**
+     * @role :
+     * @complexity :
+     * @param i : line of the game board.
+     * @param j : column of the game board.
+     * @param color : player color.
+     */
     public void rule(Integer i, Integer j, Color color){
 
         if(this.braveRule) {
@@ -137,6 +214,14 @@ public class Game {
         }
     }
 
+
+    /**
+     * @role :
+     * @complexity :
+     * @param i : line of the game board.
+     * @param j : column of the game board.
+     * @param color : player color.
+     */
     private void braveRule(Integer i, Integer j, Color color){
         Color white = Color.WHITE;
         //rule 1
@@ -154,6 +239,14 @@ public class Game {
         }
     }
 
+
+    /**
+     * @role :
+     * @complexity :
+     * @param i : line of the game board.
+     * @param j : column of the game board.
+     * @param color : player color.
+     */
     private void temerityRule(Integer i, Integer j, Color color) {
         Color white = Color.WHITE;
         //rule 1
@@ -176,11 +269,9 @@ public class Game {
         grid.isAcquired(color);
     }
 
-    public Integer getWidth(){
-        return this.width;
-    }
-
-
+    /**
+     * @role :
+     */
     public void restartGrid() {
         Integer length = (int) Math.sqrt(width/3);
         Integer center = width / 2;
