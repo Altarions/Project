@@ -8,7 +8,8 @@ import java.awt.event.ActionListener;
 public class Action implements ActionListener {
 
     JButton button;
-    Integer i,j;
+    Integer i;
+    Integer j;
     Display display;
 
     public Action(Display display, JButton button, Integer i, Integer j){
@@ -20,7 +21,7 @@ public class Action implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if(button.getBackground().equals(Color.WHITE)){
-            display.setTabButton(i,j);
+            display.play(i,j);
         }else{
             display.error();
         }

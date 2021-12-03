@@ -30,8 +30,10 @@ public class BigRegion {
         this.colorRegion = 0;
         this.centerI = centerI;
         this.centerJ = centerJ;
+
         if(length>=1){
             Integer width = (int) (3*Math.pow(2,length)/4);
+
             this.isEmpty = true;
             this.NO = new BigRegion(length-1, centerI-width, centerJ-width);
             this.NE = new BigRegion(length-1, centerI-width, centerJ+width);
@@ -134,13 +136,17 @@ public class BigRegion {
 
                     Integer colorInt = NO.colorRegion + NE.colorRegion + SO.colorRegion + SE.colorRegion;
 
-                    if (colorInt < 0) {
+                     if (colorInt < 0) {
                         setAllSmallRegion(Color.BLUE);
+                        this.colorRegion = -1;
                     } else {
                         if (colorInt > 0) {
                             setAllSmallRegion(Color.RED);
+                            this.colorRegion = 1;
                         } else {
+                            //if colorInt == 0 the region take the last color play
                             setAllSmallRegion(lastColorPlay);
+                            this.colorRegion = (lastColorPlay.equals(Color.RED) ? 1: -1);
                         }
                     }
                     this.acquired = true;
@@ -148,7 +154,7 @@ public class BigRegion {
             } else {
                 if (smallRegion.getAcquired()) {
                     //if the small region is red, the value is 1 else -1 for blue.
-                    this.colorRegion = (smallRegion.getBoxColor(1, 1) == Color.RED ? 1 : -1);
+                    this.colorRegion = (smallRegion.getBoxColor(1, 1).equals(Color.RED) ? 1 : -1);
                     this.acquired = true;
                 }
             }

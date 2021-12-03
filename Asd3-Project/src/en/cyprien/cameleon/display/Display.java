@@ -16,7 +16,8 @@ public class Display extends JFrame {
     private ArrayList<JButton> tabButton;
     private Game game;
 
-    private JLabel player, robot;
+    private JLabel player;
+    private JLabel robot;
     private JPanel res, panel;
     private Container container;
 
@@ -33,28 +34,36 @@ public class Display extends JFrame {
 
         this.game = initGame();
         initDisplay();
-
+        this.game.basicDisplay();
 
     }
 
     private Game initGame() {
         JPanel initialisation= new JPanel();
-        String gridEmpty = JOptionPane.showInputDialog(initialisation, "Voulez vous utiliser un plateau vide ? (true/false)");
+        Boolean gameType = gameType(initialisation);
+        Boolean strategy = (gameType || strategy(initialisation));
+        String gridEmpty = JOptionPane.showInputDialog(initialisation, "Voulez vous utiliser un plateau vide? (true/false)");
 
-        if(gridEmpty.equals("true")){
-            String length = JOptionPane.showInputDialog(initialisation, "Avec quelle taille de plateau voulez vous jouer ?");
-            return new Game(Integer.parseInt(length), gameType(initialisation));
+        if(gridEmpty.equalsIgnoreCase("true")){
+            String length = JOptionPane.showInputDialog(initialisation, "Avec quelle taille de plateau voulez vous jouer?");
+            return new Game(Integer.parseInt(length), gameType, strategy);
         }else{
-            String nameFile = JOptionPane.showInputDialog(initialisation, "Rentrez le nom du fichier sans l'extension .");
+            String nameFile = JOptionPane.showInputDialog(initialisation, "Rentrez le nom du fichier sans l'extension.");
             Read file = new Read(nameFile+".txt");
-            return new Game(file.getWidthFile(), file.getGridFile(), gameType(initialisation));
+            return new Game(file.getWidthFile(), file.getGridFile(), gameType, strategy);
         }
 
     }
     private boolean gameType(JPanel initialisation){
         String gameType = JOptionPane.showInputDialog(initialisation, "Voulez vous jouer avec les regles Brave Caméléon ? Sinon les regles Téméraires seront appliquées!");
 
-        return gameType.equals("true");
+        return gameType.equalsIgnoreCase("true");
+    }
+
+    private boolean strategy(JPanel initialisation){
+        String greedyStrategy = JOptionPane.showInputDialog(initialisation, "Voulez vous que l'Ia est une stratégie gloutonne? Sinon elle jouera la strégie forte! (true/false)");
+
+        return greedyStrategy.equalsIgnoreCase("true");
     }
 
     private void initDisplay(){
@@ -77,7 +86,7 @@ public class Display extends JFrame {
             for (int j = 1; j <= game.getWidth(); j++) {
                 JButton button = new JButton();
                 button.setOpaque(true);
-                button.setBackground(this.game.grid.getSmallRegion(i, j).getBoxColor(i, j));
+                button.setBackground(this.game.board.getSmallRegion(i, j).getBoxColor(i, j));
                 button.addActionListener(new Action(this, button, i, j));
                 this.tabButton.add(button);
                 this.panel.add(button);
@@ -92,22 +101,34 @@ public class Display extends JFrame {
     }
 
 
-    public void setTabButton(Integer posI, Integer posJ) {
-        Boolean win = game.play(posI, posJ);
+    public void play(Integer i, Integer j){
+
+        Boolean win = game.play(i, j, game.getPlayer1().color);
+        setTabButton();
+        if (win)win();
+
+        //IA play
+        Point player2 = game.getPlayer2().play();
+        win = game.play((int)player2.getX(), (int)player2.getY(), game.getPlayer2().color);
+        setTabButton();
+        if (win)win();
+    }
+
+
+    public void setTabButton() {
 
         for (int i = 0; i < game.getWidth(); i++) {
             for (int j = 0; j < game.getWidth(); j++) {
 
-                tabButton.get(i*game.getWidth()+j).setBackground(game.grid.getSmallRegion(i+1, j+1).getBoxColor(i+1, j+1));
+                tabButton.get(i*game.getWidth()+j).setBackground(game.board.getSmallRegion(i+1, j+1).getBoxColor(i+1, j+1));
             }
         }
         this.player.setText("Score player:   " + this.game.scoreCalculation(Color.RED));
         this.robot.setText("Score ia:   " + this.game.scoreCalculation(Color.BLUE));
 
-        if (win)win();
-
-
     }
+
+
 
     void error() {
         JOptionPane.showMessageDialog(this.panel, "Vous ne pouvez pas jouer sur cette case !");

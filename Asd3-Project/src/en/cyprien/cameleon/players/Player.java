@@ -14,7 +14,7 @@ import java.awt.*;
  */
 public class Player {
 
-    public Color color;
+    public final Color color;
     protected Game game;
 
 

@@ -49,20 +49,20 @@ public class SmallRegion {
 
 
     /**
-     * @role : return an integer designating the owner of an given box,
-     *       1 for Blue, 2 for Red else 0 for White.
+     * @role : return an string designating the owner of an given box,
+     *       B for Blue, R for Red else O for White.
      * @complexity : O(1).
      * @param i : line of the game board.
      * @param j : column of the game board.
-     * @return : Integer.
+     * @return : String.
      */
-    public Integer getBoxOwner(Integer i, Integer j) {
+    public String getBoxOwner(Integer i, Integer j) {
 
         Color color = getBoxColor(i,j);
 
-        if(color.equals(Color.RED))return 1;
-        if(color.equals(Color.BLUE))return 2;
-        return 0;
+        if(color.equals(Color.RED))return "R";
+        if(color.equals(Color.BLUE))return "B";
+        return "O";
     }
 
 

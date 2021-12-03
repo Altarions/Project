@@ -1,7 +1,6 @@
 package en.cyprien.cameleon.players;
 
 import en.cyprien.cameleon.Game;
-import en.cyprien.cameleon.region.BigRegion;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -16,14 +15,18 @@ import java.util.ArrayList;
  */
 public class Ia extends Player {
 
+    private final Boolean greedyStrategy;
 
     /**
      * @role :
      * @param game :
      * @param color :
+     * @param greedyStrategy :
      */
-    public Ia(Game game, Color color) {
+    public Ia(Game game, Color color, Boolean greedyStrategy) {
+
         super(game, color);
+        this.greedyStrategy = greedyStrategy;
     }
 
 
@@ -33,11 +36,26 @@ public class Ia extends Player {
      * @return : Point.
      */
     public Point play(){
-        Integer bestOption = 0;
+
+        if(greedyStrategy){
+            return greedyStrategy();
+        }else{
+            return strongStrategy();
+        }
+    }
+
+
+    /**
+     * @role : Look all the possibility and choose  the possibility with best value.
+     * @complexity :
+     * @return : Point.
+     */
+    private Point greedyStrategy(){
+        Integer bestOption = -1;
         Point bestPoint = new Point();
 
         ArrayList<Color> original = this.game.getAllColor();
-        ArrayList<Point> allWhitePos = this.game.getAllPosColor(new Color(255,255,255));
+        ArrayList<Point> allWhitePos = this.game.getAllPosColor(Color.WHITE);
 
         for(Point x : allWhitePos){
 
@@ -57,5 +75,51 @@ public class Ia extends Player {
         return bestPoint;
     }
 
+
+    /**
+     * @role :
+     * @complexity :
+     * @return :
+     */
+    private Point strongStrategy(){
+        Integer bestOption = -1;
+        Point bestPoint = new Point();
+
+        ArrayList<Color> original = this.game.getAllColor();
+        ArrayList<Point> allWhitePos = this.game.getAllPosColor(Color.WHITE);
+
+        for(Point x : allWhitePos){
+
+            this.game.rule((int)x.getX(),(int)x.getY(), this.color);
+
+            Integer newOption =  this.game.scoreCalculation(this.color);
+
+            if (newOption > bestOption && whiteCase(x) != 2) {
+                System.out.println(whiteCase(x));
+                bestOption = newOption;
+                bestPoint = x;
+            }
+
+            this.game.restartGrid();
+            this.game.playList(original);
+
+            if(whiteCase(x)<=1){
+                bestPoint = x;
+                break;
+            }
+
+        }
+
+        return bestPoint;
+    }
+
+    private Integer whiteCase(Point x){
+        ArrayList<Color> colorList = this.game.board.getSmallRegion((int)x.getX(), (int)x.getY()).getColorList();
+        Integer white = 0;
+        for(Color cl : colorList){
+            if(cl.equals(Color.WHITE))white++;
+        }
+        return white;
+    }
 
 }

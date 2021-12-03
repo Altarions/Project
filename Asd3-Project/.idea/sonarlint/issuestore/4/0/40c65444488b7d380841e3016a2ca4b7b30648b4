@@ -1,0 +1,17 @@
+
+o
+java:S1450"YRemove the "gridIsFull" field and declare it as a local variable in the relevant methods.(¥«âù
+ƒ
+java:S13191"hThe type of "gridFile" should be an interface such as "List" rather than the implementation "ArrayList".(õ¨·Öûÿÿÿÿ
+†
+java:S1319Q"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(­Ú¾
+‹
+java:S1319b"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(Ú«­æúÿÿÿÿ
+…
+java:S1319»"iThe type of "colorList" should be an interface such as "List" rather than the implementation "ArrayList".(Õ‘´ºıÿÿÿÿ
+m
+java:S1104"QMake board a static final constant or non-public and provide accessors if needed.(ª¹İ8ì½Õê×/
+X
+java:S21847"BCast one of the operands of this division operation to a "double".(‹áîğ
+^
+java:S2184•"BCast one of the operands of this division operation to a "double".(ôãé ÿÿÿÿÿ
