@@ -135,8 +135,8 @@ public class BigRegion {
                 if (NO.acquired && NE.acquired && SO.acquired && SE.acquired) {
 
                     Integer colorInt = NO.colorRegion + NE.colorRegion + SO.colorRegion + SE.colorRegion;
-
-                     if (colorInt < 0) {
+                    System.out.println("NO: "+NO.colorRegion+" NE: "+NE.colorRegion+" SO: "+SO.colorRegion+" SE: "+SE.colorRegion+" = "+colorInt);
+                    if (colorInt < 0) {
                         setAllSmallRegion(Color.BLUE);
                         this.colorRegion = -1;
                     } else {

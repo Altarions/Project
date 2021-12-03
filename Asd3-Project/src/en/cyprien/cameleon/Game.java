@@ -30,13 +30,14 @@ public class Game {
      * @param gameType :
      */
     public Game(Integer length, Boolean gameType, Boolean strategy){
-        this.player1 = new Player(this, Color.RED);
-        this.player2 = new Ia(this, Color.BLUE, strategy);
+
         this.braveRule = gameType;
         this.width = (int) (3 * Math.pow(2, length));
         Integer center = width / 2;
         board = new BigRegion(length,center,center);
 
+        this.player1 = new Player(this, Color.RED);
+        this.player2 = new Ia(this, Color.BLUE, strategy);
     }
 
 
@@ -47,8 +48,7 @@ public class Game {
      * @param gameType :
      */
     public Game(Integer width, ArrayList<Color> gridFile, Boolean gameType, Boolean strategy){
-        this.player1 = new Player(this, Color.RED);
-        this.player2 = new Ia(this, Color.BLUE, strategy);
+
         this.braveRule = gameType;
         this.width = width;
 
@@ -56,6 +56,9 @@ public class Game {
         Integer center = width / 2;
         board = new BigRegion(length,center,center);
         playList(gridFile);
+
+        this.player1 = new Player(this, Color.RED);
+        this.player2 = new Ia(this, Color.BLUE, strategy);
 
     }
 
@@ -69,6 +72,8 @@ public class Game {
     public Ia getPlayer2(){
         return player2;
     }
+
+    public Boolean getBraveRule(){ return braveRule; }
 
 
 
@@ -123,21 +128,23 @@ public class Game {
      */
     public boolean play(Integer i, Integer j, Color colorPlayer){
 
-            Point posPlayer = new Point(i, j);
-            System.out.println("Position jouée : ("+i+";"+j+")");
-            rule((int) posPlayer.getX(), (int) posPlayer.getY(), colorPlayer);
+        Point posPlayer = new Point(i, j);
+        System.out.println("Position jouée : (" + i + ";" + j + ")");
+        rule((int) posPlayer.getX(), (int) posPlayer.getY(), colorPlayer);
 
-            basicDisplay();
-            gridIsFull = board.isGridIsFull();
+        //all moves played are removed from the list of white boxes in the ai
+        player2.allWhitePos.remove(posPlayer);
+
+        basicDisplay();
+        gridIsFull = board.isGridIsFull();
 
 
-            if (gridIsFull) {
-                basicDisplay();
-                System.out.println(win());
-                return true;
-            } else {
-                return false;
-            }
+        if (gridIsFull) {
+            System.out.println(win());
+            return true;
+        }
+
+        return false;
     }
 
     /**

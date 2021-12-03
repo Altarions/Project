@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class Ia extends Player {
 
     private final Boolean greedyStrategy;
+    public final ArrayList<Point> allWhitePos;
 
     /**
      * @role :
@@ -27,6 +28,7 @@ public class Ia extends Player {
 
         super(game, color);
         this.greedyStrategy = greedyStrategy;
+        this.allWhitePos = this.game.getAllPosColor(Color.WHITE);
     }
 
 
@@ -51,19 +53,20 @@ public class Ia extends Player {
      * @return : Point.
      */
     private Point greedyStrategy(){
+
         Integer bestOption = -1;
         Point bestPoint = new Point();
 
         ArrayList<Color> original = this.game.getAllColor();
-        ArrayList<Point> allWhitePos = this.game.getAllPosColor(Color.WHITE);
+
 
         for(Point x : allWhitePos){
 
-            this.game.rule((int)x.getX(),(int)x.getY(), this.color);
+            this.game.rule((int) x.getX(), (int) x.getY(), this.color);
 
-            Integer newOption =  this.game.scoreCalculation(this.color);
+            Integer newOption = this.game.scoreCalculation(this.color);
 
-            if(newOption > bestOption){
+            if (newOption > bestOption) {
                 bestOption = newOption;
                 bestPoint = x;
             }
@@ -86,7 +89,7 @@ public class Ia extends Player {
         Point bestPoint = new Point();
 
         ArrayList<Color> original = this.game.getAllColor();
-        ArrayList<Point> allWhitePos = this.game.getAllPosColor(Color.WHITE);
+
 
         for(Point x : allWhitePos){
 
