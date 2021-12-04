@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * @className : IA
  * @role : represent the leaves of the trees
- * @version :  1.0.0
+ * @version :  1.1.0
  * @date : 30/11/2021
  * @author : GARNIER Cyprien
  */
@@ -19,10 +19,10 @@ public class Ia extends Player {
     public final ArrayList<Point> allWhitePos;
 
     /**
-     * @role :
-     * @param game :
-     * @param color :
-     * @param greedyStrategy :
+     * @role : Constructor of Ia.
+     * @param game : game played.
+     * @param color : color of the AI.
+     * @param greedyStrategy : strategy played by the IA.
      */
     public Ia(Game game, Color color, Boolean greedyStrategy) {
 
@@ -32,11 +32,6 @@ public class Ia extends Player {
     }
 
 
-    /**
-     * @role :
-     * @complexity :
-     * @return : Point.
-     */
     public Point play(){
 
         if(greedyStrategy){
@@ -49,13 +44,13 @@ public class Ia extends Player {
 
     /**
      * @role : Look all the possibility and choose  the possibility with best value.
-     * @complexity :
+     * @complexity : O(n).
      * @return : Point.
      */
     private Point greedyStrategy(){
 
         Integer bestOption = -1;
-        Point bestPoint = new Point();
+        Point bestPoint = allWhitePos.get(0);
 
         ArrayList<Color> original = this.game.getAllColor();
 
@@ -64,14 +59,14 @@ public class Ia extends Player {
 
             this.game.rule((int) x.getX(), (int) x.getY(), this.color);
 
-            Integer newOption = this.game.scoreCalculation(this.color);
+            Integer newOption = scoreCalculation();
 
             if (newOption > bestOption) {
                 bestOption = newOption;
                 bestPoint = x;
             }
-            this.game.restartGrid();
-            this.game.playList(original);
+            this.game.restartBoard();
+            this.game.remplirTableau(original);
 
         }
 
@@ -80,49 +75,41 @@ public class Ia extends Player {
 
 
     /**
-     * @role :
-     * @complexity :
-     * @return :
+     * @role : Look all the possibility and choose  the possibility with best value or best position.
+     * @complexity : O(n).
+     * @return : Point.
      */
     private Point strongStrategy(){
         Integer bestOption = -1;
-        Point bestPoint = new Point();
+        Point bestPoint = allWhitePos.get(0);
 
         ArrayList<Color> original = this.game.getAllColor();
 
 
         for(Point x : allWhitePos){
 
+            Integer nbWhiteBox = this.game.board.getSmallRegion((int)x.getX(),(int)x.getY()).nbBox(Color.WHITE);
+
             this.game.rule((int)x.getX(),(int)x.getY(), this.color);
 
-            Integer newOption =  this.game.scoreCalculation(this.color);
+            Integer newOption =  scoreCalculation();
 
-            if (newOption > bestOption && whiteCase(x) != 2) {
-                System.out.println(whiteCase(x));
+
+            System.out.println(nbWhiteBox);
+            if (newOption > bestOption && nbWhiteBox != 2) {
                 bestOption = newOption;
                 bestPoint = x;
             }
 
-            this.game.restartGrid();
-            this.game.playList(original);
+            this.game.restartBoard();
+            this.game.remplirTableau(original);
 
-            if(whiteCase(x)<=1){
-                bestPoint = x;
-                break;
-            }
+            if(nbWhiteBox<=1)return x;
 
         }
 
         return bestPoint;
     }
 
-    private Integer whiteCase(Point x){
-        ArrayList<Color> colorList = this.game.board.getSmallRegion((int)x.getX(), (int)x.getY()).getColorList();
-        Integer white = 0;
-        for(Color cl : colorList){
-            if(cl.equals(Color.WHITE))white++;
-        }
-        return white;
-    }
 
 }

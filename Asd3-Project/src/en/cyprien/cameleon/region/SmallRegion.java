@@ -1,6 +1,6 @@
 package en.cyprien.cameleon.region;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.ArrayList;
 /**
  * @className : SmallRegion
@@ -62,7 +62,7 @@ public class SmallRegion {
 
         if(color.equals(Color.RED))return "R";
         if(color.equals(Color.BLUE))return "B";
-        return "O";
+        return "A";
     }
 
 
@@ -102,9 +102,8 @@ public class SmallRegion {
      * @complexity : O(n).
      */
     public void initWhite(){
-        Color white = Color.WHITE;
         for(int i=0; i<9; i++){
-            this.colorList.add(white);
+            this.colorList.add(Color.WHITE);
         }
     }
 
@@ -127,6 +126,21 @@ public class SmallRegion {
         }else{
             this.acquired = false;
         }
+    }
+
+
+    /**
+     * @role : return the number of the given color box
+     * @param color :
+     * @return : Integer.
+     */
+    public Integer nbBox(Color color){
+
+        Integer nbColorBox = 0;
+        for(Color cl : colorList){
+            if(cl.equals(color))nbColorBox++;
+        }
+        return nbColorBox;
     }
 
 

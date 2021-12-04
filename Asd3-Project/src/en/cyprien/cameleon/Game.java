@@ -27,14 +27,14 @@ public class Game {
     /**
      * @role : game class constructor for user input.
      * @param length :
-     * @param gameType :
+     * @param gameType : the type of game played, Brave or Temerity.
      */
     public Game(Integer length, Boolean gameType, Boolean strategy){
 
         this.braveRule = gameType;
         this.width = (int) (3 * Math.pow(2, length));
         Integer center = width / 2;
-        board = new BigRegion(length,center,center);
+        board = new BigRegion(length, width, center, center);
 
         this.player1 = new Player(this, Color.RED);
         this.player2 = new Ia(this, Color.BLUE, strategy);
@@ -43,19 +43,19 @@ public class Game {
 
     /**
      * @role : constructor of the game class for a txt entry.
-     * @param width :
-     * @param gridFile :
-     * @param gameType :
+     * @param width : number of boxes on a length.
+     * @param boxFile : box provided in the file.
+     * @param gameType : the type of game played, Brave or Temerity.
      */
-    public Game(Integer width, ArrayList<Color> gridFile, Boolean gameType, Boolean strategy){
+    public Game(Integer width, ArrayList<Color> boxFile, Boolean gameType, Boolean strategy){
 
         this.braveRule = gameType;
         this.width = width;
 
         Integer length = (int) Math.round(Math.sqrt(width/3));//on prend l'entier le plus proche
         Integer center = width / 2;
-        board = new BigRegion(length,center,center);
-        playList(gridFile);
+        board = new BigRegion(length, width, center, center);
+        remplirTableau(boxFile);
 
         this.player1 = new Player(this, Color.RED);
         this.player2 = new Ia(this, Color.BLUE, strategy);
@@ -65,22 +65,21 @@ public class Game {
 
     //------------------- GETTER & SETTER -------------------//
 
+
     public Player getPlayer1(){
         return player1;
     }
+
 
     public Ia getPlayer2(){
         return player2;
     }
 
-    public Boolean getBraveRule(){ return braveRule; }
-
-
 
     /**
      * @role : returns the list of all the points corresponding to the given color.
      * @complexity : O(n^2).
-     * @param color :
+     * @param color : the color you need to look for.
      * @return : ArrayList<Point>.
      */
     public ArrayList<Point> getAllPosColor(Color color){
@@ -170,19 +169,11 @@ public class Game {
 
     /**
      * @role : Calculate the score of the given color.
-     * @complexity : O(n^2).
      * @param color : player color.
      * @return : Integer.
      */
-    public Integer scoreCalculation(Color color){
-
-        Integer result = 0;
-        for(int i=1; i<=width; i++){
-            for(int j=1; j<=width; j++){
-                if(board.getSmallRegion(i,j).getBoxColor(i,j).equals(color)) result++;
-            }
-        }
-        return result;
+    public Integer getScore(Color color){
+        return board.scoreCalculation(color);
     }
 
 
@@ -191,7 +182,7 @@ public class Game {
      * @complexity : O(n^2).
      * @param colorList : list of colors that must be played.
      */
-    public void playList(ArrayList<Color> colorList){
+    public void remplirTableau(ArrayList<Color> colorList){
         for(int i=1; i<=width; i++){
             for(int j=1; j<=width; j++){
                 board.getSmallRegion(i,j).setCase(i,j, colorList.get((i-1)*width+(j-1)));
@@ -224,7 +215,6 @@ public class Game {
      * @param color : player color.
      */
     private void braveRule(Integer i, Integer j, Color color){
-        Color white = Color.WHITE;
         //rule 1
         board.getSmallRegion(i,j).setCase(i, j, color);
         //rule 2
@@ -235,7 +225,7 @@ public class Game {
                 if(i+x>0 && j+y>0 && i+x<=width && j+y<=width) {
                     Color getColor = board.getSmallRegion(i+x,j+y).getBoxColor(i + x, j + y);
                     //change the color box if it is not the same color and not white
-                    if (!color.equals(getColor) && !getColor.equals(white)) {
+                    if (!color.equals(getColor) && !getColor.equals(Color.WHITE)) {
                         board.getSmallRegion(i+x,j+y).setCase(i + x, j + y, color);
                     }
                 }
@@ -252,7 +242,6 @@ public class Game {
      * @param color : player color.
      */
     private void temerityRule(Integer i, Integer j, Color color) {
-        Color white = Color.WHITE;
         //rule 1
         board.getSmallRegion(i,j).setCase(i, j, color);
         //rule 2
@@ -263,7 +252,7 @@ public class Game {
                 if(i+x>0 && j+y>0 && i+x<=width && j+y<=width) {
                     Color getColor = board.getSmallRegion(i+x,j+y).getBoxColor(i + x, j + y);
                     //change the color box if it is not the same color, not white and the region is not acquired
-                    if (!color.equals(getColor) && !getColor.equals(white) && !board.getSmallRegion(i+x,j+y).getAcquired()) {
+                    if (!color.equals(getColor) && !getColor.equals(Color.WHITE) && !board.getSmallRegion(i+x,j+y).getAcquired()) {
                         board.getSmallRegion(i+x,j+y).setCase(i + x, j + y, color);
                     }
                 }
@@ -280,11 +269,11 @@ public class Game {
      * @role : resets the board to zero with the initial settings.
      * @complexity : O(1).
      */
-    public void restartGrid() {
+    public void restartBoard() {
         Integer length = (int) Math.round(Math.sqrt(width/3));
         Integer center = width / 2;
 
-        this.board = new BigRegion(length,center,center);
+        this.board = new BigRegion(length,width,center,center);
     }
 
 
@@ -296,6 +285,7 @@ public class Game {
     public String win(){
         Integer redScore = player1.scoreCalculation();
         Integer blueScore = player2.scoreCalculation();
+        if(redScore.equals(blueScore))return "Egalité !";
 
         return (redScore>blueScore? "Victoire !\nVous avez Gagnez":"Defaite !\nVous avez perdu");
     }

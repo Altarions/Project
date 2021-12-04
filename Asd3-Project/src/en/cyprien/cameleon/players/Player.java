@@ -21,7 +21,7 @@ public class Player {
     /**
      * @role : constructor of player class.
      * @param game :
-     * @param color :
+     * @param color : color of the player
      */
     public Player(Game game, Color color){
         this.game = game;
@@ -29,10 +29,10 @@ public class Player {
     }
 
     /**
-     * @role :
+     * @role : get the score.
      * @return : Integer.
      */
     public Integer scoreCalculation(){
-        return game.scoreCalculation(this.color);
+        return game.getScore(this.color);
     }
 }

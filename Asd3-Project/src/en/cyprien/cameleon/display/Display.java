@@ -10,7 +10,13 @@ import java.util.ArrayList;
 
 import static java.lang.System.exit;
 
-
+/**
+ * @className : Display
+ * @role : represents the display
+ * @version :  1.0.0
+ * @date : 29/11/2021
+ * @author : GARNIER Cyprien
+ */
 public class Display extends JFrame {
 
     private ArrayList<JButton> tabButton;
@@ -38,6 +44,11 @@ public class Display extends JFrame {
 
     }
 
+
+    /**
+     * @role : game settings.
+     * @return : Game.
+     */
     private Game initGame() {
         JPanel initialisation= new JPanel();
         Boolean gameType = gameType(initialisation);
@@ -66,12 +77,17 @@ public class Display extends JFrame {
         return greedyStrategy.equalsIgnoreCase("true");
     }
 
+
+    /**
+     * @role : initializes the display.
+     */
     private void initDisplay(){
 
-        this.player = new JLabel("Score player:   " + this.game.scoreCalculation(Color.RED), JLabel.CENTER);
-        this.robot = new JLabel("Score ia:   " + this.game.scoreCalculation(Color.BLUE), JLabel.CENTER);
+        this.player = new JLabel("Score player:   " + this.game.getScore(Color.RED), JLabel.CENTER);
+        this.robot = new JLabel("Score ia:   " + this.game.getScore(Color.BLUE), JLabel.CENTER);
         this.player.setForeground(Color.RED);
         this.robot.setForeground(Color.BLUE);
+
         this.res = new JPanel();
         this.res.setLayout(new GridLayout());
         this.res.add(player);
@@ -123,8 +139,8 @@ public class Display extends JFrame {
                 tabButton.get(i*game.getWidth()+j).setBackground(game.board.getSmallRegion(i+1, j+1).getBoxColor(i+1, j+1));
             }
         }
-        this.player.setText("Score player:   " + this.game.scoreCalculation(Color.RED));
-        this.robot.setText("Score ia:   " + this.game.scoreCalculation(Color.BLUE));
+        this.player.setText("Score player:   " + this.game.getScore(Color.RED));
+        this.robot.setText("Score ia:   " + this.game.getScore(Color.BLUE));
 
     }
 
