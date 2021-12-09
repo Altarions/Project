@@ -1,0 +1,13 @@
+
+E
+java:S1659"#Declare "panel" on a separate line.(œÑÅ¨øÿÿÿÿ8ƒ§¸¼Ø/
+t
+java:S1450"RRemove the "res" field and declare it as a local variable in the relevant methods.(œÑÅ¨øÿÿÿÿ8Ž§¸¼Ø/
+H
+java:S1948"&Make "game" transient or serializable.(Ä¿–Žøÿÿÿÿ8”§¸¼Ø/
+e
+java:S3252%"IUse static access with "javax.swing.WindowConstants" for "EXIT_ON_CLOSE".(ºÀœx8Ä§¸¼Ø/
+c
+java:S3252V"AUse static access with "javax.swing.SwingConstants" for "CENTER".(É‡÷äúÿÿÿÿ8ç§¸¼Ø/
+c
+java:S3252W"AUse static access with "javax.swing.SwingConstants" for "CENTER".(•ÉÌ¸ýÿÿÿÿ8é§¸¼Ø/

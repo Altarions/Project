@@ -66,7 +66,7 @@ public class Display extends JFrame {
 
     }
     private boolean gameType(JPanel initialisation){
-        String gameType = JOptionPane.showInputDialog(initialisation, "Voulez vous jouer avec les regles Brave Caméléon ? Sinon les regles Téméraires seront appliquées!");
+        String gameType = JOptionPane.showInputDialog(initialisation, "Voulez vous jouer avec les regles Brave Caméléon ? Sinon les regles Téméraires seront appliquées!(true/false)");
 
         return gameType.equalsIgnoreCase("true");
     }
